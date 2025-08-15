@@ -508,7 +508,13 @@ export class EmporiaVue {
 }
 
 function formatTime(time: Date): string {
-  // Convert to UTC if not already
-  const utcTime = new Date(time.getTime() - time.getTimezoneOffset() * 60000);
-  return formatISO(utcTime, { format: 'extended' }).replace(/\.\d{3}/, '') + 'Z';
+  // Always convert to UTC and format as ISO string without milliseconds
+  const utcYear = time.getUTCFullYear();
+  const utcMonth = (time.getUTCMonth() + 1).toString().padStart(2, '0');
+  const utcDay = time.getUTCDate().toString().padStart(2, '0');
+  const utcHour = time.getUTCHours().toString().padStart(2, '0');
+  const utcMinute = time.getUTCMinutes().toString().padStart(2, '0');
+  const utcSecond = time.getUTCSeconds().toString().padStart(2, '0');
+  // Format: YYYY-MM-DDTHH:mm:ssZ
+  return `${utcYear}-${utcMonth}-${utcDay}T${utcHour}:${utcMinute}:${utcSecond}Z`;
 }
